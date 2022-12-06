@@ -15,7 +15,7 @@ def sleight_of_hand(k: int, field: List[str]) -> int:
     return result
 
 
-num = int(input()) * 2
+button_count = int(input()) * 2
 strings = []
 for i in range(4):
     numbers = input()
@@ -23,5 +23,5 @@ for i in range(4):
 
 count_numbers = {str(key): 0 for key in range(10)}
 
-answer = sleight_of_hand(k, strings)
+answer = sleight_of_hand(button_count, strings)
 print(answer)
