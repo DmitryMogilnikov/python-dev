@@ -1,7 +1,7 @@
 from typing import List
 
 
-def nearest_zero(len_array: int, array: List[int]) -> List[int]:
+def nearest_zero(len_array: int, array: List[str]) -> List[int]:
     result = [len_array] * len_array
     for i in range(len_array):
         if array[i] == '0':
