@@ -14,8 +14,12 @@ class Solution:
         return "".join(nums)
 
 
-count_numbers = int(input())
-numbers = input().split()
+def main():
+    count_numbers = int(input())
+    numbers = input().split()
+    
+    sol = Solution()
+    print(sol.largest_number(count_numbers, numbers))
 
-sol = Solution()
-print(sol.largest_number(count_numbers, numbers))
+if __name__ == "__main__":
+	main()
