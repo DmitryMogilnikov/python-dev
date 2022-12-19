@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "homeworkspythondev"
+version = "0.1.0"
+description = "Homeworks for course PythonDev"
+authors = ["DmitryMogilnikov <d.mogqs@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/DmitryMogilnikov/PythonDev"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
