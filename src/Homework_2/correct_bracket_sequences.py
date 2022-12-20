@@ -8,8 +8,4 @@ def correct_bracket_sequences(n: int, left_counter: int = 0, right_counter: int 
         correct_bracket_sequences(n, left_counter, right_counter + 1, result + ')')
 
 
-def main():
-    correct_bracket_sequences(int(input()))
-
-if __name__ == "__main__":
-	main()
+correct_bracket_sequences(int(input()))
