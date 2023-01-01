@@ -1,5 +1,5 @@
 <details>
-  <summary><b>1. Правильные скобочные последовательности (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_2/correct_bracket_sequences.py">correct_bracket_sequences.py</a>)</b></summary>
+  <summary><b>1. Правильные скобочные последовательности (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_2/correct_bracket_sequences.py">correct_bracket_sequences.py</a>)</b></summary>
   
 Необходимо реализовать функцию, генерирующую скобочную последовательность, в зависимости от входного параметра ( n = 0…10 )
 
@@ -10,7 +10,7 @@
 </details>
 
 <details>
-  <summary><b>2. Составить самое большое число (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_2/largest_number.py">largest_number.py</a>)</b></summary>
+  <summary><b>2. Составить самое большое число (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_2/largest_number.py">largest_number.py</a>)</b></summary>
   
 Необходимо составить наибольшее число из числа предложенных.
 
