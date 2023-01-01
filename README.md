@@ -1,7 +1,7 @@
 # PythonDev
 ## Первый спринт
 <details>
-  <summary><b>1. Ближайший ноль (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_1/nearest_zero.py">nearest_zero.py</a>)</b></summary>
+  <summary><b>1. Ближайший ноль (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_1/nearest_zero.py">nearest_zero.py</a>)</b></summary>
   
 Тимофей ищет место, чтобы построить себе дом. Улица, на которой он хочет жить, имеет длину n, то есть состоит из n одинаковых идущих подряд участков.     Каждый участок либо пустой, либо на нём уже построен дом.
 
@@ -11,7 +11,7 @@
 </details>
 
 <details>
-  <summary><b>2. Ловкость рук (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_1/sleight_of_hand.py">sleight_of_hand.py</a>)</b></summary>
+  <summary><b>2. Ловкость рук (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_1/sleight_of_hand.py">sleight_of_hand.py</a>)</b></summary>
   
 Игра «Тренажёр для скоростной печати» представляет собой поле из клавиш 4x4. В нём на каждом раунде появляется конфигурация цифр и точек. На клавише написана либо точка, либо цифра от 1 до 9.
 
@@ -19,6 +19,7 @@
 
 Найдите число баллов, которое смогут заработать Гоша и Тимофей, если будут нажимать на клавиши вдвоём.
 </details>
+
 
 
 ## Второй спринт
