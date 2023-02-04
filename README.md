@@ -1,7 +1,7 @@
 # PythonDev
 ## Первый спринт
 <details>
-  <summary><b>1. Ближайший ноль (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_1/nearest_zero.py">nearest_zero.py</a>)</b></summary>
+  <summary><b>1. Ближайший ноль (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_1/nearest_zero.py">nearest_zero.py</a>)</b></summary>
   
 Тимофей ищет место, чтобы построить себе дом. Улица, на которой он хочет жить, имеет длину n, то есть состоит из n одинаковых идущих подряд участков.     Каждый участок либо пустой, либо на нём уже построен дом.
 
@@ -11,7 +11,7 @@
 </details>
 
 <details>
-  <summary><b>2. Ловкость рук (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_1/sleight_of_hand.py">sleight_of_hand.py</a>)</b></summary>
+  <summary><b>2. Ловкость рук (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_1/sleight_of_hand.py">sleight_of_hand.py</a>)</b></summary>
   
 Игра «Тренажёр для скоростной печати» представляет собой поле из клавиш 4x4. В нём на каждом раунде появляется конфигурация цифр и точек. На клавише написана либо точка, либо цифра от 1 до 9.
 
@@ -21,9 +21,10 @@
 </details>
 
 
+
 ## Второй спринт
 <details>
-  <summary><b>1. Правильные скобочные последовательности (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_2/correct_bracket_sequences.py">correct_bracket_sequences.py</a>)</b></summary>
+  <summary><b>1. Правильные скобочные последовательности (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_2/correct_bracket_sequences.py">correct_bracket_sequences.py</a>)</b></summary>
   
 Необходимо реализовать функцию, генерирующую скобочную последовательность, в зависимости от входного параметра ( n = 0…10 )
 
@@ -34,7 +35,7 @@
 </details>
 
 <details>
-  <summary><b>2. Составить самое большое число (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/src/Homework_2/largest_number.py">largest_number.py</a>)</b></summary>
+  <summary><b>2. Составить самое большое число (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_2/largest_number.py">largest_number.py</a>)</b></summary>
   
 Необходимо составить наибольшее число из числа предложенных.
 
@@ -42,4 +43,22 @@
 - количество чисел n ≤ 100
 - строка с n числами, записанными через пробел. Каждое отдельное число не превосходит 1000
 </details>
+
+
+
+## Третий спринт
+<details>
+  <summary><b>1. Двоичная система счисления (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_3/src/binary_number_system.py">binary_number_system.py </a>)</b></summary>
+  
+Реализуйте функцию, которая переводит число из десятичной системы счисленияв двоичную. Встроенные методы языка программирования использовать нельзя!
+</details>
+
+<details>
+  <summary><b>2. Палиндром (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/Homework_3/src/palindrome.py">palindrome.py</a>)</b></summary>
+  
+Определите, является ли строка палиндромом. Учитываются только буквы и цифры, заглавные и строчные буквы считаются одинаковыми.Буквы могут быть только латинские. Фраза может состоять из строчных и прописных латинских букв, цифр, знаков препинания.
+
+Функция возвращает True, если фраза является палиндромом, иначе - False
+</details>
+
 
