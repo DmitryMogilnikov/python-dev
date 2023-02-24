@@ -1,12 +1,10 @@
 import csv
-import json
 from datetime import datetime
 from io import StringIO
-from typing import BinaryIO
 
 from fastapi import Depends
 
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 from src.db.db import get_session
 from src.models.operation import Operation
 from src.models.schemas.operation.operation_request import OperationRequest
@@ -49,7 +47,13 @@ class OperationsService:
         )
         return operation
 
-    def download(self, tank_id: int, product_id: int, date_start: datetime, date_end: datetime) -> StringIO:
+    def download(
+            self,
+            tank_id: int,
+            product_id: int,
+            date_start: datetime,
+            date_end: datetime
+    ) -> StringIO:
         operations = (
             self.session
             .query(Operation)
@@ -70,21 +74,44 @@ class OperationsService:
         output = StringIO()
         writer = csv.DictWriter(output, fieldnames=headers_list)
         writer.writeheader()
-        for i in operations:
-            writer.writerow(dict(i))
+        for op in operations:
+            writer.writerow(
+                {
+                    "id": op.id,
+                    "mass": op.mass,
+                    "date_start": op.date_start,
+                    "date_end": op.date_end,
+                    "tank_id": op.tank_id,
+                    "product_id": op.product_id,
+                    "created_at": op.created_at,
+                    "created_by": op.created_by,
+                    "modified_at": op.modified_at,
+                    "modified_by": op.modified_by,
+                }
+            )
         output.seek(0)
         return output
 
-    def add(self, operation_schema: OperationRequest) -> Operation:
-        operation = Operation(**operation_schema.dict())
+    def add(self,
+            operation_schema: OperationRequest,
+            user_id: int) -> Operation:
+        operation = Operation(
+            **operation_schema.dict(),
+            created_by=user_id,
+            modified_by=user_id,
+        )
         self.session.add(operation)
         self.session.commit()
         return operation
 
-    def update(self, operation_id: int, operation_schema: OperationRequest) -> Operation:
+    def update(self,
+               operation_id: int,
+               operation_schema: OperationRequest,
+               user_id: int) -> Operation:
         operation = self.get(operation_id)
         for field, value in operation_schema:
             setattr(operation, field, value)
+        setattr(operation, 'modified_by', user_id)
         self.session.commit()
         return operation
 

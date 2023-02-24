@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class TankResponse(BaseModel):
+    id: int
     name: str
     max_capacity: float
     current_capacity: float

@@ -5,7 +5,7 @@ from src.models.schemas.user.user_request import UserRequest
 from src.models.schemas.user.user_response import UserResponse
 from src.models.schemas.utils.jwt_token import JwtToken
 from src.services.role_checker import RoleChecker
-from src.services.users import UsersService
+from src.services.users import UsersService, get_current_user_id
 
 router = APIRouter(
     prefix='/users',
@@ -15,34 +15,30 @@ router = APIRouter(
 allow_to_create_resource = RoleChecker(['admin'])
 
 
-def check_admin(users_service: UsersService):
-    if users_service.check_admin():
-        raise HTTPException(status_code=status.HTTP_302_FOUND, detail="Администратор существует")
-    return users_service.register_admin()
-
-
-@router.post('/startup',
-             status_code=status.HTTP_201_CREATED,
-             name='Регистрация администратора')
-def create_admin(users_service: UsersService = Depends()):
-    return check_admin(users_service)
-
-
 @router.post('/register',
              status_code=status.HTTP_201_CREATED,
              name='Регистрация пользователя',
              dependencies=[Depends(allow_to_create_resource)])
-def register(user_schema: UserRequest, users_service: UsersService = Depends()):
-    return users_service.register(user_schema)
+def register(user_schema: UserRequest,
+             users_service: UsersService = Depends(),
+             creator_user_id: int = Depends(get_current_user_id)):
+    return users_service.register(user_schema, creator_user_id)
 
 
 @router.post('/authorize',
              response_model=JwtToken,
              name='Авторизация',)
-def authorize(auth_schema: OAuth2PasswordRequestForm = Depends(), users_service: UsersService = Depends()):
-    result = users_service.authorize(auth_schema.username, auth_schema.password)
+def authorize(auth_schema: OAuth2PasswordRequestForm = Depends(),
+              users_service: UsersService = Depends()):
+    result = users_service.authorize(
+        auth_schema.username,
+        auth_schema.password
+    )
     if not result:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Не авторизован')
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Не авторизован'
+        )
     return result
 
 
@@ -50,14 +46,17 @@ def authorize(auth_schema: OAuth2PasswordRequestForm = Depends(), users_service:
             response_model=list[UserResponse],
             name="Получить список всех пользователей",
             dependencies=[Depends(allow_to_create_resource)])
-def get(users_service: UsersService = Depends()):
+def get_all(users_service: UsersService = Depends()):
     return users_service.all()
 
 
 def get_with_check(user_id: int, user_service: UsersService):
     result = user_service.get(user_id)
     if not result:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Пользователь не найден")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Пользователь не найден"
+        )
     return result
 
 
@@ -73,9 +72,12 @@ def get(user_id: int, users_service: UsersService = Depends()):
             response_model=UserResponse,
             name="Обновить информацию о пользователе",
             dependencies=[Depends(allow_to_create_resource)])
-def put(user_id: int, user_schema: UserRequest, users_service: UsersService = Depends()):
+def put(user_id: int,
+        user_schema: UserRequest,
+        users_service: UsersService = Depends(),
+        creator_user_id: int = Depends(get_current_user_id)):
     get_with_check(user_id, users_service)
-    return users_service.update(user_id, user_schema)
+    return users_service.update(user_id, user_schema, creator_user_id)
 
 
 @router.delete('/{user_id}',
@@ -85,5 +87,3 @@ def put(user_id: int, user_schema: UserRequest, users_service: UsersService = De
 def delete(user_id: int, users_service: UsersService = Depends()):
     get_with_check(user_id, users_service)
     return users_service.delete(user_id)
-
-

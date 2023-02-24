@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.handlers.pbkdf2 import pbkdf2_sha256
 from jose import JWTError, jwt
@@ -40,18 +40,26 @@ class UsersService:
     @staticmethod
     def verify_token_id(token: str) -> Optional[int]:
         try:
-            payload = jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
+            payload = jwt.decode(token, settings.jwt_secret,
+                                 algorithms=[settings.jwt_algorithm])
         except JWTError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Некорректный токен')
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Некорректный токен'
+            )
 
         return payload.get('sub')
 
     @staticmethod
     def verify_token_role(token: str) -> Optional[str]:
         try:
-            payload = jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
+            payload = jwt.decode(token, settings.jwt_secret,
+                                 algorithms=[settings.jwt_algorithm])
         except JWTError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Некорректный токен')
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Некорректный токен'
+            )
 
         return payload.get('role')
 
@@ -64,21 +72,23 @@ class UsersService:
             'sub': str(user_id),
             'role': str(role),
         }
-        token = jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)
+        token = jwt.encode(payload, settings.jwt_secret,
+                           algorithm=settings.jwt_algorithm)
         return JwtToken(access_token=token)
 
-    def register(self, user_schema: UserRequest, token: str = Depends(oauth2_schema)) -> None:
-        user_id = int(self.verify_token_id(token))
+    def register(self, user_schema: UserRequest, creator_user_id: int) -> User:
         user = User(
             username=user_schema.username,
             password_hash=self.hash_password(user_schema.password_text),
-            created_by=int(user_id),
-            modified_by=int(user_id),
+            created_by=creator_user_id,
+            modified_by=creator_user_id
         )
         self.session.add(user)
         self.session.commit()
 
-    def authorize(self, username: str, password_text: str) -> Optional[JwtToken]:
+    def authorize(self,
+                  username: str,
+                  password_text: str) -> Optional[JwtToken]:
         user = (
             self.session
             .query(User)
@@ -92,24 +102,6 @@ class UsersService:
             return None
 
         return self.create_token(user.id, user.role)
-
-    def check_admin(self) -> bool:
-        result = (
-            self.session
-            .query(User)
-            .filter(User.role == 'admin')
-            .first()
-        )
-        return result
-
-    def register_admin(self) -> None:
-        user = User(
-            username=settings.admin_username,
-            password_hash=self.hash_password(settings.admin_password),
-            role='admin',
-        )
-        self.session.add(user)
-        self.session.commit()
 
     def all(self) -> list[User]:
         user = (
@@ -133,16 +125,14 @@ class UsersService:
         )
         return user
 
-    def add(self, user_schema: UserRequest) -> User:
-        user = User(**user_schema.dict())
-        self.session.add(user)
-        self.session.commit()
-        return user
-
-    def update(self, user_id: int, user_schema: UserRequest) -> User:
+    def update(self,
+               user_id: int,
+               user_schema: UserRequest,
+               creator_user_id: int) -> User:
         user = self.get(user_id)
         for field, value in user_schema:
             setattr(user, field, value)
+        setattr(user, 'modified_by', creator_user_id)
         self.session.commit()
         return user
 

@@ -32,16 +32,24 @@ class ProductsService:
         )
         return product
 
-    def add(self, product_schema: ProductRequest) -> Product:
-        product = Product(**product_schema.dict())
+    def add(self, product_schema: ProductRequest, user_id: int) -> Product:
+        product = Product(
+            **product_schema.dict(),
+            created_by=user_id,
+            modified_by=user_id,
+        )
         self.session.add(product)
         self.session.commit()
         return product
 
-    def update(self, product_id: int, product_schema: ProductRequest) -> Product:
+    def update(self,
+               product_id: int,
+               product_schema: ProductRequest,
+               user_id: int) -> Product:
         product = self.get(product_id)
         for field, value in product_schema:
             setattr(product, field, value)
+        setattr(product, 'modified_by', user_id)
         self.session.commit()
         return product
 

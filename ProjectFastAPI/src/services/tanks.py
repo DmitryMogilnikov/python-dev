@@ -32,22 +32,34 @@ class TanksService:
         )
         return tank
 
-    def update_capacity(self, tank_id: int, new_current_capacity: float,) -> Tank:
-        tank = self.get(tank_id)
-        tank.current_capacity = new_current_capacity
-        self.session.commit()
-        return tank
-
-    def add(self, tank_schema: TankRequest) -> Tank:
-        tank = Tank(**tank_schema.dict())
+    def add(self, tank_schema: TankRequest, user_id) -> Tank:
+        tank = Tank(
+            **tank_schema.dict(),
+            created_by=user_id,
+            modified_by=user_id,
+        )
         self.session.add(tank)
         self.session.commit()
         return tank
 
-    def update(self, tank_id: int, tank_schema: TankRequest) -> Tank:
+    def update_capacity(self,
+                        tank_id: int,
+                        new_current_capacity: float,
+                        user_id: int,) -> Tank:
+        tank = self.get(tank_id)
+        tank.current_capacity = new_current_capacity
+        tank.modified_by = user_id
+        self.session.commit()
+        return tank
+
+    def update(self,
+               tank_id: int,
+               tank_schema: TankRequest,
+               user_id: int,) -> Tank:
         tank = self.get(tank_id)
         for field, value in tank_schema:
             setattr(tank, field, value)
+        setattr(tank, 'updated_by', user_id)
         self.session.commit()
         return tank
 
