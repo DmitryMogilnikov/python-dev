@@ -7,6 +7,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from src.db.db import get_session
 from src.models.operation import Operation
+from src.models.schemas.file.file_request import FileRequest
 from src.models.schemas.operation.operation_request import OperationRequest
 
 
@@ -47,21 +48,17 @@ class OperationsService:
         )
         return operation
 
-    def download(
-            self,
-            tank_id: int,
-            product_id: int,
-            date_start: datetime,
-            date_end: datetime
-    ) -> StringIO:
+    def download(self, file_request: FileRequest) -> StringIO:
         operations = (
             self.session
             .query(Operation)
             .filter(
-                Operation.tank_id == tank_id,
-                Operation.product_id == product_id,
-                Operation.date_start.between(date_start, date_end),
-                Operation.date_end.between(date_start, date_end),
+                Operation.tank_id == file_request.tank_id,
+                Operation.product_id == file_request.product_id,
+                Operation.date_start.between(file_request.date_start,
+                                             file_request.date_end),
+                Operation.date_end.between(file_request.date_start,
+                                           file_request.date_end),
             )
             .all()
         )

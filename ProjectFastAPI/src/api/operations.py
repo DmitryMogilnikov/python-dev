@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 
+from src.models.schemas.file.file_request import FileRequest
 from src.models.schemas.operation.operation_request import OperationRequest
 from src.models.schemas.operation.operation_response import (
     OperationResponse, OperationResponseBase)
@@ -61,10 +62,13 @@ def download(tank_id: int,
              operations_service: OperationsService = Depends(),
              user_id: int = Depends(get_current_user_id)):
     print(user_id)
-    report = operations_service.download(tank_id,
-                                         product_id,
-                                         date_start,
-                                         date_end)
+    file_request = FileRequest(
+        tank_id=tank_id,
+        product_id=product_id,
+        date_start=date_start,
+        date_end=date_end,
+    )
+    report = operations_service.download(file_request)
     return StreamingResponse(
         report, media_type='text/csv',
         headers={"Content-Disposition": "filename=file.csv"}
