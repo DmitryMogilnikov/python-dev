@@ -70,3 +70,22 @@
 ### Задача №2
 Написать триггер на вставку и обновление записей в таблице prodmag.products. Триггер должен выполнять проверку правильности сохраняемых в таблице данных и порождать Exception (тем самым не давая внести изменения в таблицу), в том случае, если данные не валидные.
 </details>
+
+
+<details>
+  <summary><b>7. Indexes (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/PostgreSQL/07.%20indexes.sql">07. indexes.sql</a>)</b></summary>
+
+Экспериментальным путем выбрать оптимальные* индексы для следующих полей у таблиц в схеме bookings:
+- bookings.book_date = '15.08.2017 17:56:00+03'
+- tickets.passenger_id = '9999 985697'
+- tickets.passenger_name = 'ALEKSEY NOVIKOV'
+- tickets.contact_data = '{"phone":"+70001171617"}'
+</details>
+
+
+<details>
+  <summary><b>8. Optimization (<a href="https://github.com/DmitryMogilnikov/PythonDev/blob/master/PostgreSQL/08.%20optimization.sql">08. optimization.sql</a>)</b></summary>
+
+Запросы, которые необходимо ускорить.
+Можно менять структуру запросов, можно попробовать добавить индексы. Главное, чтобы набор данных остался, как у первоначального запроса и увеличилась скорость выборки данных.
+</details>
